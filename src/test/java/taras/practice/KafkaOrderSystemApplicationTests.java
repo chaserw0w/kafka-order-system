@@ -1,4 +1,4 @@
-package taras.kafka_order_system;
+package taras.practice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
