@@ -22,13 +22,15 @@ services:
 
   producer:
     build:
-      context: ./producer_app
+      context: .
+      dockerfile: producer_app/Dockerfile
     depends_on:
       - kafka
 
   consumer:
     build:
-      context: ./consumer_app
+      context: .
+      dockerfile: consumer_app/Dockerfile
     depends_on:
       - kafka
     deploy:
