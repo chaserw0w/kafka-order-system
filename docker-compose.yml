@@ -17,8 +17,22 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_INTERNAL://kafka:29092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_INTERNAL://0.0.0.0:29092
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT_INTERNAL
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  topic-init:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: kafka_topic_init
+    depends_on:
+      - kafka
+    entrypoint: ["/bin/bash", "-c", "/create-topics.sh"]
+    volumes:
+      - ./create-topics.sh:/create-topics.sh
+    networks:
+      - default
 
   producer:
     build:
@@ -26,12 +40,27 @@ services:
       dockerfile: producer_app/Dockerfile
     depends_on:
       - kafka
+    ports:
+      - "8081:8081"
 
-  consumer:
+  consumer1:
     build:
       context: .
       dockerfile: consumer_app/Dockerfile
     depends_on:
       - kafka
-    deploy:
-      replicas: 2  # Here, two instances of Consumer are created
+    ports:
+      - "8082:8082"
+
+  consumer2:
+    build:
+      context: .
+      dockerfile: consumer_app/Dockerfile
+    depends_on:
+      - kafka
+    ports:
+      - "8083:8082"
+
+networks:
+  default:
+    driver: bridge
