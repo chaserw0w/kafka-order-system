@@ -1,6 +1,7 @@
 package taras.producer.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +17,8 @@ public class KafkaProducerController {
     private final KafkaProducerService kafkaProducerService;
 
     @PostMapping("/send")
-    public String sendMessage(@RequestBody MessageEntity message) {
+    public ResponseEntity<String> sendMessage(@RequestBody MessageEntity message) {
         kafkaProducerService.sendMessage(message);
-        return "Message sent successfully: " + message;
+        return ResponseEntity.ok("Message sent successfully: " + message);
     }
 }
