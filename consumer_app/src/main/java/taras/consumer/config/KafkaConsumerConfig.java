@@ -10,9 +10,8 @@ import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
-import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
-import taras.consumer.util.Order;
+import taras.common.domain.Order;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,19 +19,21 @@ import java.util.Map;
 @Configuration
 public class KafkaConsumerConfig {
 
-    @Value("kafka:9092")
+    @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
     @Bean
     public ConsumerFactory<String, Order> consumerFactory() {
         Map<String, Object> properties = new HashMap<>();
+
         properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, "order-consumers");
         properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
-        properties.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class);
-        properties.put(JsonDeserializer.TRUSTED_PACKAGES, "taras.producer.util,taras.consumer.util");
-        //properties.put(JsonDeserializer.VALUE_DEFAULT_TYPE, "taras.consumer.util.Order");
+        properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        //properties.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class);
+        //properties.put(JsonDeserializer.TRUSTED_PACKAGES, "taras.common.domain");
+        //properties.put(JsonDeserializer.USE_TYPE_INFO_HEADERS, false);
+        //properties.put(JsonDeserializer.VALUE_DEFAULT_TYPE, "taras.common.domain.Order");
 
         return new DefaultKafkaConsumerFactory<>(properties);
     }

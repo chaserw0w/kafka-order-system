@@ -3,8 +3,7 @@ package taras.producer.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
-import taras.producer.util.MessageEntity;
-import taras.producer.util.Order;
+import taras.common.domain.Order;
 
 @Service
 @RequiredArgsConstructor

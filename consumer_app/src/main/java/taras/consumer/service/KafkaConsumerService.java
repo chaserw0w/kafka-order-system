@@ -3,7 +3,7 @@ package taras.consumer.service;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
-import taras.consumer.util.Order;
+import taras.common.domain.Order;
 
 @Component
 public class KafkaConsumerService {
