@@ -30,10 +30,6 @@ public class KafkaConsumerConfig {
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, "order-consumers");
         properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-        //properties.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class);
-        //properties.put(JsonDeserializer.TRUSTED_PACKAGES, "taras.common.domain");
-        //properties.put(JsonDeserializer.USE_TYPE_INFO_HEADERS, false);
-        //properties.put(JsonDeserializer.VALUE_DEFAULT_TYPE, "taras.common.domain.Order");
 
         return new DefaultKafkaConsumerFactory<>(properties);
     }
