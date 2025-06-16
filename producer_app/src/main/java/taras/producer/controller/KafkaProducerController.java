@@ -6,9 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import taras.common.domain.Order;
 import taras.producer.service.KafkaProducerService;
-import taras.producer.util.MessageEntity;
-import taras.producer.util.Order;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,6 +19,6 @@ public class KafkaProducerController {
     @PostMapping("/send")
     public ResponseEntity<String> sendMessage(@RequestBody Order order) {
         kafkaProducerService.sendOrderMessage(order);
-        return ResponseEntity.ok("Message sent successfully: " + order.toString());
+        return ResponseEntity.ok("Message sent successfully: " + order);
     }
 }

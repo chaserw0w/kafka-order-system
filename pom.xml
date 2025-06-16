@@ -14,9 +14,10 @@
 	<packaging>pom</packaging>
 
 	<modules>
+		<module>common</module>
 		<module>producer_app</module>
 		<module>consumer_app</module>
-	</modules>
+    </modules>
 
 	<name>kafka-order-system</name>
 	<description>Kafka project for practice</description>
